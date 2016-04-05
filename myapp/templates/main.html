@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Django-Angular demo app</title>
+		<!-- CSS -->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+		<style>
+			body { padding-top:50px; }
+		</style>
+		<!-- JS -->
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+		<script src="{% static 'angularapp/js/app.js' %}"></script>
+	</head>
+	<body>
+		<div class="container col-lg-12 col-md-12 col-sm-12" ng-app="sortApp" ng-controller="mainController">
+			<div class="alert alert-info col-lg-12 col-md-12 col-sm-12">
+				<p>Sort Type: {[{ sortType }]}</p>
+				<p>Sort Reverse: {[{ sortReverse }]}</p>
+				<p>Search Query: {[{ searchEmployee }]}</p>
+			</div>
+			<form>
+				<div class="form-group row">
+					<div class="input-group col-lg-12 col-md-12 col-sm-12">
+						<div class="input-group-addon"><i class="fa fa-search"></i></div>
+						<input type="text" class="form-control" placeholder="Search Employee" ng-model="searchEmployee">
+					</div>
+				</div>
+			</form>
+			<table class="table table-bordered table-striped table-responsive">
+				<thead>
+					<tr>
+						<td>
+							<a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+							Employee name 
+							<span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+							<span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</td>
+						<td>
+							<a href="#" ng-click="sortType = 'surname'; sortReverse = !sortReverse">
+							Employee Surname
+							<span ng-show="sortType == 'surname' && !sortReverse" class="fa fa-caret-down"></span>
+							<span ng-show="sortType == 'surname' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</td>
+						<td>
+							<a href="#" ng-click="sortType = 'rating'; sortReverse = !sortReverse">
+							Rating
+							<span ng-show="sortType == 'rating' && !sortReverse" class="fa fa-caret-down"></span>
+							<span ng-show="sortType == 'rating' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="employee in empList | orderBy:sortType:sortReverse | filter:searchEmployee">
+						<td>{[{ employee.name }]}</td>
+						<td>{[{ employee.surname }]}</td>
+						<td>{[{ employee.rating }]}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
+
